@@ -29,8 +29,8 @@ Route::get('posts/{post}', function ($slug) {
     //View called post
     return view('post', [
         //Pass the post to the view
-        'post' => Post::find($slug)
+        'post' => Post::findOrFail($slug)
     ]);
 
 //Door het gebruik van where kunnen we ervoor zorgen dat de link van $slug niet een random combinatie kan zijn
-})->where('post', '[A-z_\-]+');
+});

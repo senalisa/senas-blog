@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-
-<title>Sena's Blog</title>
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-<body>
-
+<x-layout>
     <article>
         <h1>{!! $post->title !!}</h1>
 
@@ -14,5 +8,4 @@
     </article>
 
     <a href='{!! url('/'); !!}'>Go Back</a>
-
-</body>
+</x-layout>
