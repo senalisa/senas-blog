@@ -21,7 +21,7 @@ Route::get('/', function () {
     //Pass it to the view
     return view('posts', [
         //fetch posts
-        'posts' => Post::all()
+        'posts' => Post::latest('published_at')->get() //Get less queries
     ]);
 });
 
@@ -44,6 +44,15 @@ Route::get('categories/{category:slug}', function (\App\Models\Category $categor
     return view('posts', [
         //fetch posts
         'posts' => $category->posts
+    ]);
+});
+
+/*ROUTE FOR AUTHORS PAGE*/
+Route::get('authors/{author:username}', function (\App\Models\User $author) {
+    //Pass it to the view
+    return view('posts', [
+        //fetch posts
+        'posts' => $author->posts
     ]);
 });
 
