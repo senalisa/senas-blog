@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*ROUTE FOR ALL POSTS*/
 Route::get('/', function () {
     //Pass it to the view
     return view('posts', [
@@ -24,13 +25,31 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('posts/{post}', function ($slug) {
+/*ROUTE FOR SINGLE POST*/
+//Route (posts) Model (Post) Bounding
+Route::get('posts/{post:slug}', function (Post $post) { //Give me the Post::where('slug', $post)->firstOrFail()
     //Find a post by its slug and pass it to the view called "post"
     //View called post
     return view('post', [
         //Pass the post to the view
-        'post' => Post::findOrFail($slug)
+        'post' => $post
     ]);
 
 //Door het gebruik van where kunnen we ervoor zorgen dat de link van $slug niet een random combinatie kan zijn
 });
+
+/*ROUTE FOR CATEGORY PAGE*/
+Route::get('categories/{category:slug}', function (\App\Models\Category $category) {
+    //Pass it to the view
+    return view('posts', [
+        //fetch posts
+        'posts' => $category->posts
+    ]);
+});
+
+
+
+
+
+
+
