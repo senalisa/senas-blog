@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -21,9 +22,10 @@ Route::get('/', function () {
     //Pass it to the view
     return view('posts', [
         //fetch posts
-        'posts' => Post::latest('published_at')->get() //Get less queries
+        'posts' => Post::latest('published_at')->get(), //Get less queries
+        'categories' => Category::all()
     ]);
-});
+})->name('home');
 
 /*ROUTE FOR SINGLE POST*/
 //Route (posts) Model (Post) Bounding
@@ -43,16 +45,19 @@ Route::get('categories/{category:slug}', function (\App\Models\Category $categor
     //Pass it to the view
     return view('posts', [
         //fetch posts
-        'posts' => $category->posts
+        'posts' => $category->posts,
+        'currentCategory' => $category,
+        'categories' => Category::all()
     ]);
-});
+})->name('category');
 
 /*ROUTE FOR AUTHORS PAGE*/
 Route::get('authors/{author:username}', function (\App\Models\User $author) {
     //Pass it to the view
     return view('posts', [
         //fetch posts
-        'posts' => $author->posts
+        'posts' => $author->posts,
+        'categories' => Category::all()
     ]);
 });
 
