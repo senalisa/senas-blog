@@ -19,6 +19,16 @@ class Post extends Model
     //Hier zorgen we er voor dat er minder queries zijn in de browser (clockwork)
     protected $with = ['category', 'author'];
 
+    public function scopeFilter($query, array $filters) //Post::newQuery()->filter()
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query
+                ->where('title', 'like', '%' . $search . '%')
+                ->orWhere('body', 'like', '%' . $search  . '%');
+        });
+        //Search bar
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

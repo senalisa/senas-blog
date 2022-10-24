@@ -4,6 +4,7 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 
 /*
@@ -18,27 +19,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 /*ROUTE FOR ALL POSTS*/
-Route::get('/', function () {
-    //Pass it to the view
-    return view('posts', [
-        //fetch posts
-        'posts' => Post::latest('published_at')->get(), //Get less queries
-        'categories' => Category::all()
-    ]);
-})->name('home');
+Route::get('/', [PostController::class, 'index'])->name('home');
 
 /*ROUTE FOR SINGLE POST*/
-//Route (posts) Model (Post) Bounding
-Route::get('posts/{post:slug}', function (Post $post) { //Give me the Post::where('slug', $post)->firstOrFail()
-    //Find a post by its slug and pass it to the view called "post"
-    //View called post
-    return view('post', [
-        //Pass the post to the view
-        'post' => $post
-    ]);
-
-//Door het gebruik van where kunnen we ervoor zorgen dat de link van $slug niet een random combinatie kan zijn
-});
+Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 /*ROUTE FOR CATEGORY PAGE*/
 Route::get('categories/{category:slug}', function (\App\Models\Category $category) {
