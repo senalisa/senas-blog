@@ -1,8 +1,6 @@
 <?php
 
-use App\Models\Category;
-use App\Models\Post;
-use Illuminate\Support\Facades\File;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
@@ -24,6 +22,10 @@ Route::get('/', [PostController::class, 'index'])->name('home');
 
 /*ROUTE FOR SINGLE POST*/
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
+
+/*ROUTE FOR REGISTERING*/
+Route::get('register', [RegisterController::class, 'create']);
+Route::post('register', [RegisterController::class, 'store']);
 
 
 
