@@ -26,7 +26,11 @@ class RegisterController extends Controller
         //Hash the password
         $attributes['password'] = bcrypt($attributes['password']);
 
-        User::create($attributes);
+        //Create User
+        $user = User::create($attributes);
+
+        //Log the user in
+        auth()->login($user);
 
         //Flash message if the User has been registered while redirecting to the home page
         return redirect('/')->with('succes', 'Your account has been created');
