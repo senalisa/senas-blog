@@ -14,7 +14,9 @@ class PostController extends Controller
         //Pass it to the view
         return view('posts.index', [
             //fetch posts and filter the search, category and author
-            'posts' => Post::latest()->filter(request(['search', 'category', 'author']))->get(),
+            'posts' => Post::latest()->filter(
+                request(['search', 'category', 'author'])
+            )->paginate(6)->withQueryString() //With paginate we can create a pagination
         ]);
     }
 

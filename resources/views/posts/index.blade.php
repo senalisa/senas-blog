@@ -7,6 +7,9 @@
 
                 <x-posts-grid :posts="$posts"/>
 
+                {{ $posts->links() }}
+            {{-- rendering the pagination links--}}
+
         @else
             <p class="text-center">No posts yet. Please check back later.</p>
         @endif
