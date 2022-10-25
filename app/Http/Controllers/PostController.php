@@ -12,10 +12,9 @@ class PostController extends Controller
     public function index()
     {
         //Pass it to the view
-        return view('posts', [
-            //fetch posts
-            'posts' => Post::latest()->filter(request(['search']))->get(),
-            'categories' => Category::all()
+        return view('posts.index', [
+            //fetch posts and filter the search, category and author
+            'posts' => Post::latest()->filter(request(['search', 'category', 'author']))->get(),
         ]);
     }
 
@@ -23,7 +22,7 @@ class PostController extends Controller
     {
         //Find a post by its slug and pass it to the view called "post"
         //View called post
-        return view('post', [
+        return view('posts.show', [
             //Pass the post to the view
             'post' => $post
         ]);
