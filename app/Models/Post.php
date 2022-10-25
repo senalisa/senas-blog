@@ -11,7 +11,7 @@ class Post extends Model
 
     //acces to factory
     //Hier kiezen we de onderwerpen die NIET veranderd kunnen worden
-    protected $guarded = [];
+//    protected $guarded = [];
 
     //Hier kiezen we de onderwerpen die veranderd kunnen worden
 //    protected $fillable = ['title', 'slug', 'excerpt', 'body', 'category_id'];
@@ -38,6 +38,12 @@ class Post extends Model
             $query->whereHas('author', fn ($query) =>
             $query->where('username', $author));
         });
+    }
+
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function category()
