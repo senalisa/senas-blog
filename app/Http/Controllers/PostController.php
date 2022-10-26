@@ -44,12 +44,14 @@ class PostController extends Controller
         $attributes=request()->validate(
             [
                 'title'=>['required',Rule::unique('posts','title')],
+                'thumbnail' => 'required|image',
                 'excerpt'=>'required',
                 'body'=>'required',
                 'category_id'=>['required',Rule::exists('categories','id')]
             ]);
 
         $attributes['slug']=Str::slug(request('title'));
+        $attributes['thumbnail'] = \request()->file('thumbnail')->store('thumbnails');
         $attributes['user_id']=auth()->id();
 
         Post::create($attributes);
