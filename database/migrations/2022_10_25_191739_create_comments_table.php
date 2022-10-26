@@ -15,15 +15,10 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('post_id'); //When a post is deleted, also delete the comments in that post
+            $table->unsignedBigInteger('user_id');  //When a user is deleted, also delete the comments from that user
             $table->text('body');
             $table->timestamps();
-
-            //When a post is deleted, also delete the comments in that post
-            $table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete();
-            //When a user is deleted, also delete the comments from that user
-            $table->foreign('user_id')->references('id')->on('posts')->cascadeOnDelete();
         });
     }
 

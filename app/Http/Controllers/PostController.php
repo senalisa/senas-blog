@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 
 class PostController extends Controller
@@ -29,4 +31,31 @@ class PostController extends Controller
             'post' => $post
         ]);
     }
+
+    //Create post IF admin
+    public function create()
+    {
+            return view('posts.create');
+    }
+
+    //Store Post
+    public function store()
+    {
+        $attributes=request()->validate(
+            [
+                'title'=>['required',Rule::unique('posts','title')],
+                'excerpt'=>'required',
+                'body'=>'required',
+                'category_id'=>['required',Rule::exists('categories','id')]
+            ]);
+
+        $attributes['slug']=Str::slug(request('title'));
+        $attributes['user_id']=auth()->id();
+
+        Post::create($attributes);
+
+        return redirect('/');
+    }
 }
+
+
